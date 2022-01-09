@@ -34,7 +34,12 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("add/Run()")
-		addIntList(args)
+		fflag, _ := cmd.Flags().GetBool("float")
+		if fflag {
+			addFloat(args)
+		} else {
+			addInt(args)
+		}
 	},
 }
 
@@ -51,9 +56,11 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// addCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+
+	addCmd.Flags().BoolP("float", "f", false, "Add floating numbers")
 }
 
-func addIntList(args []string) {
+func addInt(args []string) {
 	var sum int
 	for _, val := range args {
 		i, err := strconv.Atoi(val)
@@ -64,3 +71,15 @@ func addIntList(args []string) {
 	}
 	fmt.Printf("Sum: %d\n", sum)
 }
+
+func addFloat(args []string) {
+	var sum float64
+	for _, val := range args {
+		i, err := strconv.ParseFloat(val, 64)
+		if err != nil {
+			fmt.Errorf("Error : %q", err)
+		}
+		sum += i
+	}
+	fmt.Printf("Sum: %f\n", sum)
+} 
