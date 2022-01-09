@@ -17,6 +17,7 @@ package cmd
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/spf13/cobra"
 )
@@ -33,6 +34,7 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("add/Run()")
+		addIntList(args)
 	},
 }
 
@@ -49,4 +51,16 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// addCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+}
+
+func addIntList(args []string) {
+	var sum int
+	for _, val := range args {
+		i, err := strconv.Atoi(val)
+		if err != nil {
+			fmt.Errorf("error: %q", err)
+		}
+		sum += i
+	}
+	fmt.Printf("Sum: %d\n", sum)
 }
